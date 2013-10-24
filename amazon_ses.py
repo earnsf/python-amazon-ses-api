@@ -54,7 +54,10 @@ class AmazonSES:
         params['Action'] = actionName        
         #https://email.us-east-1.amazonaws.com/
         conn = httplib.HTTPSConnection('email.us-east-1.amazonaws.com')
-        params = urllib.urlencode(params)
+
+# removed by kevin on 10/24/2013        params = urllib.urlencode(params)
+        params = urllib.urlencode(dict([k, v.encode('utf-8')] for k, v in params.items()))
+
         conn.request('POST', '/', params, self._getHeaders())
         response = conn.getresponse()
         responseResult = response.read()
